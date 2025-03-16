@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #chat{
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+        #loading{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Practice GPT</h2>
+    <p id="loading">Loading...</p>
+    <div id="chat">
+
+    </div>
+    <input id="userInput" type="text">
+    <button id="sendBtn" onclick="sendMessage()">Send</button>
+    <script>
+        document.getElementById('userInput').addEventListener('keydown', function(event){
+            if (event.key == "Enter"){
+                sendMessage();
+            }
+        });
+
+        async function sendMessage(){
+            userMessage = document.getElementById('userInput').value;
+            document.getElementById("chat").innerHTML += `<p>You: ${userMessage} </p>`
+            document.getElementById('userInput').value = "";
+
+            document.getElementById('loading').style.display = "block";
+            document.getElementById('sendBtn').disabled = true;
+
+            response = await fetch('/chat',{
+                method : "POST",
+                headers : {"Content-Type":"application/json"},
+                body : JSON.stringify({message:userMessage})
+            });
+
+            data = await response.json();
+            document.getElementById("chat").innerHTML += `<p>AI: ${data.reply} </p>`
+
+            document.getElementById('loading').style.display = "none";
+            document.getElementById('sendBtn').disabled = false;
+        }
+    </script>
+</body>
+</html>

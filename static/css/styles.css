@@ -1,0 +1,11 @@
+#login{
+    height:100vh;
+    background: linear-gradient(170deg, #8451de, #f0ebfa);
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+.login-card{
+    max-width: 500px;
+    padding: 25px 45px;
+}
